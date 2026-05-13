@@ -20,12 +20,16 @@ header{background:#1d6e5e;padding:14px 28px;display:flex;align-items:center;just
 .sync-dot.syncing{background:#fbbf24;animation:pulse 1s infinite}
 .sync-dot.error{background:#f87171}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes spin{to{transform:rotate(360deg)}}
 button{font-family:'DM Sans',sans-serif;cursor:pointer;font-weight:500;border:none;transition:.15s;line-height:1}
 button:active{opacity:.85}
 .btn-white{background:#fff;color:#1d6e5e;padding:8px 16px;border-radius:8px;font-size:13px;display:flex;align-items:center;gap:6px}
 .btn-white:hover{background:#f0faf7}
 .btn-outline-white{background:transparent;color:rgba(255,255,255,.9);border:1.5px solid rgba(255,255,255,.35);padding:7px 15px;border-radius:8px;font-size:13px;display:flex;align-items:center;gap:6px}
 .btn-outline-white:hover{background:rgba(255,255,255,.1)}
+.btn-admin{background:rgba(255,255,255,.15);color:#fff;border:1.5px solid rgba(255,255,255,.3);padding:7px 14px;border-radius:8px;font-size:13px;display:flex;align-items:center;gap:6px}
+.btn-admin:hover{background:rgba(255,255,255,.25)}
+.btn-admin.unlocked{background:rgba(255,255,255,.25);border-color:rgba(255,255,255,.6)}
 .btn-green{background:#1d6e5e;color:#fff;padding:7px 14px;border-radius:8px;font-size:13px;display:flex;align-items:center;gap:5px}
 .btn-green:hover{background:#155046}
 .btn-ghost{background:transparent;color:#5c5c58;border:1.5px solid #e0e0db;padding:6px 12px;border-radius:8px;font-size:13px}
@@ -43,8 +47,8 @@ button:active{opacity:.85}
 .panel-title{font-size:15px;font-weight:700;margin-bottom:.85rem}
 .panel-row{display:flex;align-items:center;gap:10px;margin-bottom:9px}
 .pw-num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:#1d6e5e;color:#fff;font-size:11px;font-weight:700;flex-shrink:0}
-input[type="text"]{font-family:'DM Sans',sans-serif;font-size:13px;padding:8px 12px;border:1.5px solid #e0e0db;border-radius:8px;outline:none;background:#faf9f6;color:#1a1a18;width:100%;transition:.15s}
-input[type="text"]:focus{border-color:#1d6e5e;box-shadow:0 0 0 3px rgba(29,110,94,.12);background:#fff}
+input[type=text],input[type=password]{font-family:'DM Sans',sans-serif;font-size:13px;padding:8px 12px;border:1.5px solid #e0e0db;border-radius:8px;outline:none;background:#faf9f6;color:#1a1a18;width:100%;transition:.15s}
+input[type=text]:focus,input[type=password]:focus{border-color:#1d6e5e;box-shadow:0 0 0 3px rgba(29,110,94,.12);background:#fff}
 .section-heading{display:flex;align-items:center;gap:12px;margin-bottom:1.25rem}
 .section-heading h2{font-size:18px;font-weight:700;color:#1d6e5e;white-space:nowrap}
 .section-line{flex:1;height:1px;background:#e0e0db}
@@ -58,8 +62,7 @@ input[type="text"]:focus{border-color:#1d6e5e;box-shadow:0 0 0 3px rgba(29,110,9
 .thermo-wrap{padding:1rem .75rem .75rem;display:flex;flex-direction:column;align-items:center;gap:.5rem}
 .thermo-outer{position:relative;width:44px;height:160px;flex-shrink:0}
 .thermo-tube-bg{position:absolute;left:50%;transform:translateX(-50%);bottom:26px;width:18px;height:126px;background:#eeeee9;border-radius:9px 9px 0 0;overflow:hidden}
-.thermo-tube-fill{position:absolute;bottom:0;left:0;right:0;border-radius:0;transition:height .7s cubic-bezier(.34,1.2,.64,1);background:#1d6e5e}
-.pw-card.is-app .thermo-tube-fill{background:#185fa5}
+.thermo-tube-fill{position:absolute;bottom:0;left:0;right:0;transition:height .7s cubic-bezier(.34,1.2,.64,1)}
 .thermo-bulb-bg{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:34px;height:34px;border-radius:50%;background:#eeeee9;z-index:1}
 .thermo-bulb-fill{position:absolute;inset:4px;border-radius:50%;transition:background .6s;z-index:2}
 .thermo-count{font-size:13px;font-weight:700;color:#1d6e5e;text-align:center}
@@ -68,10 +71,9 @@ input[type="text"]:focus{border-color:#1d6e5e;box-shadow:0 0 0 3px rgba(29,110,9
 .pw-card-body{flex:1;padding:.5rem .75rem;display:flex;flex-direction:column;gap:5px;border-top:1px solid #eeeee9}
 .person-chip{display:flex;align-items:center;gap:7px;padding:6px 8px;background:#f0faf7;border:1px solid #b5d4bf;border-radius:8px}
 .pw-card.is-app .person-chip{background:#e6f1fb;border-color:#85b7eb}
-.person-chip:hover .chip-remove{opacity:1}
 .chip-av{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;flex-shrink:0}
 .chip-name{font-size:12px;font-weight:500;color:#1a1a18;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
-.chip-remove{opacity:0;background:none;border:none;color:#b91c1c;cursor:pointer;padding:1px 2px;border-radius:4px;font-size:12px;transition:opacity .15s}
+.chip-remove{background:none;border:none;color:#b91c1c;cursor:pointer;padding:1px 2px;border-radius:4px;font-size:12px;display:none}
 .chip-remove:hover{background:#fee2e2}
 .no-names{font-size:12px;color:#969690;padding:2px 4px}
 .col-add-form{padding:.6rem .75rem;border-top:1px solid #eeeee9;background:#faf9f6;display:none}
@@ -84,7 +86,7 @@ input[type="text"]:focus{border-color:#1d6e5e;box-shadow:0 0 0 3px rgba(29,110,9
 .existing-item:hover{background:#f0faf7}
 .existing-av{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff;flex-shrink:0}
 .no-existing{font-size:11px;color:#969690;padding:3px 6px}
-.col-add-btn{width:100%;background:transparent;border:1.5px dashed #b5d4bf;color:#1d6e5e;font-size:12px;font-weight:700;padding:7px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;transition:.15s;font-family:'DM Sans',sans-serif}
+.col-add-btn{width:100%;background:transparent;border:1.5px dashed #b5d4bf;color:#1d6e5e;font-size:12px;font-weight:700;padding:7px;border-radius:8px;cursor:pointer;display:none;align-items:center;justify-content:center;gap:4px;transition:.15s;font-family:'DM Sans',sans-serif}
 .col-add-btn:hover{background:#f0faf7;border-style:solid}
 .pw-card.is-app .col-add-btn{border-color:#85b7eb;color:#185fa5}
 .pw-card.is-app .col-add-btn:hover{background:#e6f1fb;border-style:solid}
@@ -113,23 +115,19 @@ input[type="text"]:focus{border-color:#1d6e5e;box-shadow:0 0 0 3px rgba(29,110,9
 .empty-lb{padding:2.5rem;text-align:center;color:#969690;font-size:14px}
 .loading-screen{position:fixed;inset:0;background:#faf9f6;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;z-index:100}
 .loading-spinner{width:32px;height:32px;border:3px solid #e0e0db;border-top-color:#1d6e5e;border-radius:50%;animation:spin .7s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
 .loading-text{font-size:14px;color:#5c5c58}
-
-.admin-btn{background:rgba(255,255,255,.15);color:#fff;border:1.5px solid rgba(255,255,255,.3);padding:7px 14px;border-radius:8px;font-size:13px;display:flex;align-items:center;gap:6px}
-.admin-btn:hover{background:rgba(255,255,255,.25)}
-.admin-btn.unlocked{background:rgba(255,255,255,.25);border-color:rgba(255,255,255,.5)}
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:flex;align-items:center;justify-content:center}
 .modal{background:#fff;border-radius:14px;padding:2rem;width:100%;max-width:360px;box-shadow:0 8px 32px rgba(0,0,0,.18)}
 .modal-title{font-size:17px;font-weight:700;margin-bottom:.35rem}
 .modal-sub{font-size:13px;color:#5c5c58;margin-bottom:1.25rem}
-.modal-error{font-size:12px;color:#b91c1c;margin-top:6px;display:none}
-.edit-only{display:none}
-.edit-only.visible{display:flex}
-.edit-only-block{display:none}
-.edit-only-block.visible{display:block}
-.edit-only-inline{display:none}
-.edit-only-inline.visible{display:inline-flex}
+.modal-error{font-size:12px;color:#b91c1c;margin-top:6px;min-height:18px}
+/* admin-mode classes toggled by JS */
+.admin-mode .chip-remove{display:flex}
+.admin-mode .col-add-btn{display:flex}
+.admin-mode #btn-edit-pathways{display:flex}
+.admin-mode #btn-add-person{display:flex}
+#btn-edit-pathways{display:none}
+#btn-add-person{display:none}
 @media(max-width:900px){.pathways-grid{grid-template-columns:repeat(3,1fr)}.c-pws,.c-app{display:none}}
 @media(max-width:580px){.pathways-grid{grid-template-columns:1fr 1fr}.main{padding:1rem}}
 </style>
@@ -139,6 +137,19 @@ input[type="text"]:focus{border-color:#1d6e5e;box-shadow:0 0 0 3px rgba(29,110,9
 <div class="loading-screen" id="loading">
   <div class="loading-spinner"></div>
   <div class="loading-text">Connecting to database…</div>
+</div>
+
+<div class="modal-bg" id="admin-modal" style="display:none">
+  <div class="modal">
+    <div class="modal-title">Admin login</div>
+    <div class="modal-sub">Enter the password to enable editing.</div>
+    <input type="password" id="admin-pw" placeholder="Password" style="margin-bottom:4px"/>
+    <div class="modal-error" id="pw-error"></div>
+    <div style="display:flex;gap:8px;margin-top:1rem">
+      <button class="btn-green btn-sm" id="pw-submit">Log in</button>
+      <button class="btn-ghost btn-sm" id="pw-cancel">Cancel</button>
+    </div>
+  </div>
 </div>
 
 <header>
@@ -152,15 +163,15 @@ input[type="text"]:focus{border-color:#1d6e5e;box-shadow:0 0 0 3px rgba(29,110,9
   </div>
   <div class="header-btns">
     <div class="sync-status"><div class="sync-dot" id="sync-dot"></div><span id="sync-label">Live</span></div>
-    <button class="admin-btn" id="admin-btn" onclick="window.adminClick()">
+    <button class="btn-admin" id="admin-btn">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-      <span id="admin-btn-label">Admin</span>
+      <span id="admin-label">Admin</span>
     </button>
-    <button class="btn-outline-white edit-only" id="btn-edit-pathways" onclick="toggleSettings()">
+    <button class="btn-outline-white" id="btn-edit-pathways">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
       Edit pathways
     </button>
-    <button class="btn-white edit-only" id="btn-add-person" onclick="toggleAddPerson()">
+    <button class="btn-white" id="btn-add-person">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       Add colleague
     </button>
@@ -173,23 +184,23 @@ input[type="text"]:focus{border-color:#1d6e5e;box-shadow:0 0 0 3px rgba(29,110,9
   <div class="panel" id="settings-panel">
     <div class="panel-title">Edit learning pathway names</div>
     <div id="pw-inputs"></div>
-    <div style="margin-top:14px;padding-top:14px;border-top:1px solid #e0e0db;">
-      <div style="font-size:13px;font-weight:700;margin-bottom:6px;">Total staff in programme</div>
-      <div style="display:flex;align-items:center;gap:10px;max-width:300px;">
-        <input type="text" id="total-staff-input" placeholder="e.g. 50" style="max-width:90px;" oninput="updTotal(this.value)"/>
-        <span style="font-size:12px;color:#5c5c58;">Sets the thermometer maximum.</span>
+    <div style="margin-top:14px;padding-top:14px;border-top:1px solid #e0e0db">
+      <div style="font-size:13px;font-weight:700;margin-bottom:6px">Total staff in programme</div>
+      <div style="display:flex;align-items:center;gap:10px;max-width:300px">
+        <input type="text" id="total-staff-input" placeholder="e.g. 50" style="max-width:90px"/>
+        <span style="font-size:12px;color:#5c5c58">Sets the thermometer maximum.</span>
       </div>
     </div>
-    <div style="margin-top:12px;"><button class="btn-green btn-sm" onclick="toggleSettings()">Save &amp; close</button></div>
+    <div style="margin-top:12px"><button class="btn-green btn-sm" id="settings-close">Save &amp; close</button></div>
   </div>
 
   <div class="panel" id="add-panel">
     <div class="panel-title">Add a colleague</div>
-    <p style="font-size:13px;color:#5c5c58;margin-bottom:.75rem;">Add them here, then mark their badges in the pathway columns below.</p>
-    <div style="display:flex;gap:8px;max-width:380px;">
-      <input type="text" id="global-name" placeholder="Full name" onkeydown="if(event.key==='Enter')addGlobal()"/>
-      <button class="btn-green btn-sm" onclick="addGlobal()">Add</button>
-      <button class="btn-ghost btn-sm" onclick="toggleAddPerson()">Cancel</button>
+    <p style="font-size:13px;color:#5c5c58;margin-bottom:.75rem">Add them here, then mark their badges in the pathway columns below.</p>
+    <div style="display:flex;gap:8px;max-width:380px">
+      <input type="text" id="global-name" placeholder="Full name"/>
+      <button class="btn-green btn-sm" id="global-add-btn">Add</button>
+      <button class="btn-ghost btn-sm" id="global-cancel-btn">Cancel</button>
     </div>
   </div>
 
@@ -213,18 +224,18 @@ input[type="text"]:focus{border-color:#1d6e5e;box-shadow:0 0 0 3px rgba(29,110,9
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 import { getFirestore, doc, setDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
+const ADMIN_PW = 'microsoft2026';
 const firebaseConfig = {
   apiKey: "AIzaSyCQV1fvbbRdfMgvl8QNQdJoUI4UXdUVK0o",
   authDomain: "ms-elevate-leaderboard.firebaseapp.com",
   projectId: "ms-elevate-leaderboard",
   storageBucket: "ms-elevate-leaderboard.firebasestorage.app",
   messagingSenderId: "417320691342",
-  appId: "1:417320691342:web:355e2b45bcdad28e5ccbdf",
-  measurementId: "G-4RBR34074V"
+  appId: "1:417320691342:web:355e2b45bcdad28e5ccbdf"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const fbApp = initializeApp(firebaseConfig);
+const db = getFirestore(fbApp);
 const stateRef = doc(db, 'leaderboard', 'state');
 
 let state = {
@@ -232,83 +243,103 @@ let state = {
   colleagues: [],
   totalStaff: 50
 };
-
 let openForm = null, settingsOpen = false, addOpen = false;
 let saveTimer = null;
+let isAdmin = sessionStorage.getItem('lb_admin') === '1';
 
-// ── Sync indicator ──────────────────────────────────────────
-function setSyncing(){ document.getElementById('sync-dot').className='sync-dot syncing'; document.getElementById('sync-label').textContent='Saving…'; }
-function setSynced(){  document.getElementById('sync-dot').className='sync-dot'; document.getElementById('sync-label').textContent='Live'; }
-function setError(){   document.getElementById('sync-dot').className='sync-dot error'; document.getElementById('sync-label').textContent='Offline'; }
+// ── Admin UI ────────────────────────────────────────────────
+function applyAdmin() {
+  document.body.classList.toggle('admin-mode', isAdmin);
+  const btn = document.getElementById('admin-btn');
+  const lbl = document.getElementById('admin-label');
+  btn.className = isAdmin ? 'btn-admin unlocked' : 'btn-admin';
+  lbl.textContent = isAdmin ? 'Admin ✓' : 'Admin';
+}
+
+document.getElementById('admin-btn').addEventListener('click', () => {
+  if (isAdmin) {
+    isAdmin = false;
+    sessionStorage.removeItem('lb_admin');
+    applyAdmin();
+  } else {
+    document.getElementById('admin-modal').style.display = 'flex';
+    setTimeout(() => document.getElementById('admin-pw').focus(), 50);
+  }
+});
+
+document.getElementById('pw-submit').addEventListener('click', () => {
+  const val = document.getElementById('admin-pw').value;
+  if (val === ADMIN_PW) {
+    isAdmin = true;
+    sessionStorage.setItem('lb_admin', '1');
+    document.getElementById('admin-modal').style.display = 'none';
+    document.getElementById('admin-pw').value = '';
+    document.getElementById('pw-error').textContent = '';
+    applyAdmin();
+  } else {
+    document.getElementById('pw-error').textContent = 'Incorrect password — try again.';
+    document.getElementById('admin-pw').value = '';
+  }
+});
+
+document.getElementById('admin-pw').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('pw-submit').click(); });
+document.getElementById('pw-cancel').addEventListener('click', () => {
+  document.getElementById('admin-modal').style.display = 'none';
+  document.getElementById('admin-pw').value = '';
+  document.getElementById('pw-error').textContent = '';
+});
 
 // ── Firebase ────────────────────────────────────────────────
+function setSyncing() { document.getElementById('sync-dot').className = 'sync-dot syncing'; document.getElementById('sync-label').textContent = 'Saving…'; }
+function setSynced()  { document.getElementById('sync-dot').className = 'sync-dot'; document.getElementById('sync-label').textContent = 'Live'; }
+function setError()   { document.getElementById('sync-dot').className = 'sync-dot error'; document.getElementById('sync-label').textContent = 'Offline'; }
+
 async function saveToFirebase() {
   setSyncing();
-  try {
-    await setDoc(stateRef, state);
-    setSynced();
-  } catch(e) { setError(); console.error(e); }
+  try { await setDoc(stateRef, state); setSynced(); }
+  catch(e) { setError(); console.error(e); }
 }
+function save() { clearTimeout(saveTimer); saveTimer = setTimeout(saveToFirebase, 600); }
 
-function save() {
-  clearTimeout(saveTimer);
-  saveTimer = setTimeout(saveToFirebase, 600);
-}
-
-// Listen for real-time changes from any user
-onSnapshot(stateRef, (snap) => {
+onSnapshot(stateRef, snap => {
   document.getElementById('loading').style.display = 'none';
   if (snap.exists()) {
-    const data = snap.data();
-    // Only update if not mid-interaction
-    state = {
-      pathways: data.pathways || state.pathways,
-      colleagues: data.colleagues || [],
-      totalStaff: data.totalStaff ?? 50
-    };
-    render();
+    const d = snap.data();
+    state = { pathways: d.pathways || state.pathways, colleagues: d.colleagues || [], totalStaff: d.totalStaff ?? 50 };
   } else {
-    // First time — save defaults
     saveToFirebase();
-    render();
   }
   setSynced();
-}, (err) => {
-  document.getElementById('loading').style.display = 'none';
-  setError();
-  console.error(err);
   render();
+}, err => {
+  document.getElementById('loading').style.display = 'none';
+  setError(); console.error(err); render();
 });
 
 // ── Helpers ─────────────────────────────────────────────────
-function sc(c){ return c.pathways.filter(Boolean).length + (c.application ? 1 : 0); }
-function sorted(){ return [...state.colleagues].sort((a,b) => sc(b)-sc(a) || a.name.localeCompare(b.name)); }
-function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function inits(n){ return n.split(' ').filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase(); }
-function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
-const AVC=['#1d6e5e','#185fa5','#534ab7','#993c1d','#854f0b','#0f6e56','#993556','#256038'];
-function avc(n){ let h=0; for(let i=0;i<n.length;i++) h=(h*31+n.charCodeAt(i))&0xffff; return AVC[h%AVC.length]; }
+const sc = c => c.pathways.filter(Boolean).length + (c.application ? 1 : 0);
+const sorted = () => [...state.colleagues].sort((a,b) => sc(b)-sc(a) || a.name.localeCompare(b.name));
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const inits = n => n.split(' ').filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+const AVC = ['#1d6e5e','#185fa5','#534ab7','#993c1d','#854f0b','#0f6e56','#993556','#256038'];
+const avc = n => { let h=0; for(let i=0;i<n.length;i++) h=(h*31+n.charCodeAt(i))&0xffff; return AVC[h%AVC.length]; };
 
-const svgCheck = sz => `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>`;
-const svgX     = sz => `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
-const svgPlus  = sz => `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`;
+const svgCheck = z => `<svg width="${z}" height="${z}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+const svgX    = z => `<svg width="${z}" height="${z}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+const svgPlus = z => `<svg width="${z}" height="${z}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`;
 
-function thermometer(pct, isApp) {
-  const fillColor = isApp ? '#185fa5' : '#1d6e5e';
-  const tubeH = 126;
-  const fillH = Math.round(tubeH * (Math.min(pct,100) / 100));
+function thermo(pct, isApp) {
+  const fc = isApp ? '#185fa5' : '#1d6e5e';
+  const h = Math.round(126 * Math.min(pct,100) / 100);
   return `<div class="thermo-outer">
-    <div class="thermo-tube-bg">
-      <div class="thermo-tube-fill" style="height:${fillH}px;background:${fillColor};"></div>
-    </div>
-    <div class="thermo-bulb-bg">
-      <div class="thermo-bulb-fill" style="background:${pct>0?fillColor:'#d5d5d0'};border-radius:50%;position:absolute;inset:4px;"></div>
-    </div>
+    <div class="thermo-tube-bg"><div class="thermo-tube-fill" style="height:${h}px;background:${fc}"></div></div>
+    <div class="thermo-bulb-bg"><div class="thermo-bulb-fill" style="background:${pct>0?fc:'#d5d5d0'}"></div></div>
   </div>`;
 }
 
 // ── Render ──────────────────────────────────────────────────
-function render(){ renderStats(); renderPathways(); renderLB(); }
+function render() { renderStats(); renderPathways(); renderLB(); }
 
 function renderStats() {
   const t = state.colleagues.length;
@@ -316,17 +347,16 @@ function renderStats() {
   const all = state.colleagues.filter(c => sc(c) === 5).length;
   const avg = t ? (state.colleagues.reduce((s,c)=>s+sc(c),0)/t).toFixed(1) : '–';
   document.getElementById('stats-bar').innerHTML = [
-    ['Participants', t||'0'], ['Avg. score', t?`${avg} / 5`:'–'],
+    ['Participants', t||'0'], ['Avg. score', t ? `${avg} / 5` : '–'],
     ['Applications submitted', app], ['Fully complete', all]
-  ].map((it,i) => `${i>0?'<div class="stat-sep"></div>':''}<div class="stat-pill"><div class="stat-val">${it[1]}</div><div class="stat-lbl">${it[0]}</div></div>`).join('');
+  ].map((it,i) => (i>0?'<div class="stat-sep"></div>':'')+`<div class="stat-pill"><div class="stat-val">${it[1]}</div><div class="stat-lbl">${it[0]}</div></div>`).join('');
 }
 
 function renderPathways() {
-  const grid = document.getElementById('pathways-grid');
   const total = state.colleagues.length;
   const denom = state.totalStaff > 0 ? Math.max(state.totalStaff, total) : total;
 
-  const cols = [0,1,2,3].map(i => {
+  const colHTML = [0,1,2,3].map(i => {
     const holders = state.colleagues.filter(c => c.pathways[i]);
     const eligible = state.colleagues.filter(c => !c.pathways[i]);
     const pct = denom ? Math.round(holders.length / denom * 100) : 0;
@@ -337,29 +367,34 @@ function renderPathways() {
         <div class="pw-card-name">${esc(state.pathways[i])}</div>
       </div>
       <div class="thermo-wrap">
-        ${thermometer(pct, false)}
+        ${thermo(pct, false)}
         <div class="thermo-count">${holders.length} of ${denom||'?'}</div>
         <div class="thermo-pct">${pct}% complete</div>
       </div>
       <div class="pw-card-body">
-        ${holders.length===0?'<div class="no-names">No badges yet</div>':holders.map(c=>`<div class="person-chip">
-          <div class="chip-av" style="background:${avc(c.name)}">${esc(inits(c.name))}</div>
-          <span class="chip-name">${esc(c.name)}</span>
-          <button class="chip-remove edit-only-inline ${isAdmin?'visible':''}" onclick="window.removePw('${c.id}',${i})">${svgX(10)}</button>
-        </div>`).join('')}
+        ${holders.length === 0 ? '<div class="no-names">No badges yet</div>' : holders.map(c =>
+          `<div class="person-chip">
+            <div class="chip-av" style="background:${avc(c.name)}">${esc(inits(c.name))}</div>
+            <span class="chip-name">${esc(c.name)}</span>
+            <button class="chip-remove" data-action="removePw" data-id="${c.id}" data-idx="${i}">${svgX(10)}</button>
+          </div>`).join('')}
       </div>
-      <div class="col-add-form ${isOpen?'open':''}" id="col-form-${i}">
+      <div class="col-add-form${isOpen ? ' open' : ''}" id="caf-${i}">
         <div class="add-input-row">
-          <input type="text" id="col-in-${i}" placeholder="New colleague…" onkeydown="if(event.key==='Enter')window.addToPw(${i})"/>
-          <button class="btn-green btn-sm" onclick="window.addToPw(${i})">${svgPlus(12)}</button>
-          <button class="btn-ghost btn-sm" onclick="window.closeForm()">${svgX(11)}</button>
+          <input type="text" id="cin-${i}" placeholder="New colleague…"/>
+          <button class="btn-green btn-sm" data-action="addToPw" data-idx="${i}">${svgPlus(12)}</button>
+          <button class="btn-ghost btn-sm" data-action="closeForm">${svgX(11)}</button>
         </div>
-        ${eligible.length>0
-          ? `<div class="existing-label">Or pick existing:</div><div class="existing-list">${eligible.map(c=>`<div class="existing-item" onclick="window.grantPw('${c.id}',${i})"><div class="existing-av" style="background:${avc(c.name)}">${esc(inits(c.name))}</div>${esc(c.name)}</div>`).join('')}</div>`
-          : total>0?'<div class="no-existing">Everyone has this badge!</div>':''
-        }
+        ${eligible.length > 0
+          ? `<div class="existing-label">Or pick existing:</div><div class="existing-list">${eligible.map(c =>
+              `<div class="existing-item" data-action="grantPw" data-id="${c.id}" data-idx="${i}">
+                <div class="existing-av" style="background:${avc(c.name)}">${esc(inits(c.name))}</div>${esc(c.name)}
+              </div>`).join('')}</div>`
+          : total > 0 ? '<div class="no-existing">Everyone has this badge!</div>' : ''}
       </div>
-      <div class="col-footer edit-only-block ${isAdmin?'visible':''} "><button class="col-add-btn" onclick="window.openColForm(${i})">${svgPlus(12)} Add a name</button></div>
+      <div class="col-footer">
+        <button class="col-add-btn" data-action="openForm" data-idx="${i}">${svgPlus(12)} Add a name</button>
+      </div>
     </div>`;
   });
 
@@ -368,40 +403,46 @@ function renderPathways() {
   const apct = denom ? Math.round(ah.length / denom * 100) : 0;
   const appOpen = openForm === 'app';
 
-  const appCol = `<div class="pw-card is-app">
+  colHTML.push(`<div class="pw-card is-app">
     <div class="pw-card-head">
       <div class="pw-card-label">Final step</div>
       <div class="pw-card-name">Submitted Expert Application</div>
     </div>
     <div class="thermo-wrap">
-      ${thermometer(apct, true)}
+      ${thermo(apct, true)}
       <div class="thermo-count">${ah.length} of ${denom||'?'}</div>
       <div class="thermo-pct">${apct}% submitted</div>
     </div>
     <div class="pw-card-body">
-      ${ah.length===0?'<div class="no-names">No applications yet</div>':ah.map(c=>`<div class="person-chip">
-        <div class="chip-av" style="background:${avc(c.name)}">${esc(inits(c.name))}</div>
-        <span class="chip-name">${esc(c.name)}</span>
-        <button class="chip-remove edit-only-inline ${isAdmin?'visible':''}" onclick="window.removeApp('${c.id}')">${svgX(10)}</button>
-      </div>`).join('')}
+      ${ah.length === 0 ? '<div class="no-names">No applications yet</div>' : ah.map(c =>
+        `<div class="person-chip">
+          <div class="chip-av" style="background:${avc(c.name)}">${esc(inits(c.name))}</div>
+          <span class="chip-name">${esc(c.name)}</span>
+          <button class="chip-remove" data-action="removeApp" data-id="${c.id}">${svgX(10)}</button>
+        </div>`).join('')}
     </div>
-    <div class="col-add-form ${appOpen?'open':''}" id="col-form-app">
+    <div class="col-add-form${appOpen ? ' open' : ''}" id="caf-app">
       <div class="add-input-row">
-        <input type="text" id="col-in-app" placeholder="New colleague…" onkeydown="if(event.key==='Enter')window.addToApp()"/>
-        <button class="btn-green btn-sm" onclick="window.addToApp()">${svgPlus(12)}</button>
-        <button class="btn-ghost btn-sm" onclick="window.closeForm()">${svgX(11)}</button>
+        <input type="text" id="cin-app" placeholder="New colleague…"/>
+        <button class="btn-green btn-sm" data-action="addToApp">${svgPlus(12)}</button>
+        <button class="btn-ghost btn-sm" data-action="closeForm">${svgX(11)}</button>
       </div>
-      ${ae.length>0
-        ? `<div class="existing-label">Or pick existing:</div><div class="existing-list">${ae.map(c=>`<div class="existing-item" onclick="window.grantApp('${c.id}')"><div class="existing-av" style="background:${avc(c.name)}">${esc(inits(c.name))}</div>${esc(c.name)}</div>`).join('')}</div>`
-        : total>0?'<div class="no-existing">Everyone has applied!</div>':''
-      }
+      ${ae.length > 0
+        ? `<div class="existing-label">Or pick existing:</div><div class="existing-list">${ae.map(c =>
+            `<div class="existing-item" data-action="grantApp" data-id="${c.id}">
+              <div class="existing-av" style="background:${avc(c.name)}">${esc(inits(c.name))}</div>${esc(c.name)}
+            </div>`).join('')}</div>`
+        : total > 0 ? '<div class="no-existing">Everyone has applied!</div>' : ''}
     </div>
-    <div class="col-footer edit-only-block ${isAdmin?'visible':''} "><button class="col-add-btn" onclick="window.openColForm('app')">${svgPlus(12)} Add a name</button></div>
-  </div>`;
+    <div class="col-footer">
+      <button class="col-add-btn" data-action="openForm" data-idx="app">${svgPlus(12)} Add a name</button>
+    </div>
+  </div>`);
 
-  grid.innerHTML = cols.join('') + appCol;
+  document.getElementById('pathways-grid').innerHTML = colHTML.join('');
+
   if (openForm !== null) {
-    const id = openForm==='app' ? 'col-in-app' : `col-in-${openForm}`;
+    const id = openForm === 'app' ? 'cin-app' : `cin-${openForm}`;
     setTimeout(() => document.getElementById(id)?.focus(), 40);
   }
 }
@@ -409,7 +450,7 @@ function renderPathways() {
 function renderLB() {
   const list = sorted();
   const body = document.getElementById('lb-body');
-  if (!list.length) { body.innerHTML='<div class="empty-lb">Add colleagues above to see the leaderboard.</div>'; return; }
+  if (!list.length) { body.innerHTML = '<div class="empty-lb">Add colleagues above to see the leaderboard.</div>'; return; }
   const rc = r => r===1?'r1':r===2?'r2':r===3?'r3':'rn';
   body.innerHTML = list.map((c,idx) => {
     const r=idx+1, s=sc(c);
@@ -424,64 +465,107 @@ function renderLB() {
   }).join('');
 }
 
-// ── UI toggles ──────────────────────────────────────────────
-function toggleSettings() {
-  settingsOpen = !settingsOpen;
-  const p = document.getElementById('settings-panel');
-  if (settingsOpen) {
-    p.classList.add('open');
-    document.getElementById('add-panel').classList.remove('open'); addOpen=false;
-    document.getElementById('pw-inputs').innerHTML = state.pathways.map((pw,i) =>
-      `<div class="panel-row"><span class="pw-num">${i+1}</span><input type="text" value="${esc(pw)}" onchange="window.updPw(${i},this.value)" style="max-width:360px"/></div>`).join('');
-    const tsi = document.getElementById('total-staff-input');
-    if (tsi) tsi.value = state.totalStaff || '';
-  } else p.classList.remove('open');
-}
-
-function toggleAddPerson() {
-  addOpen = !addOpen;
-  const p = document.getElementById('add-panel');
-  if (addOpen) {
-    p.classList.add('open');
-    document.getElementById('settings-panel').classList.remove('open'); settingsOpen=false;
-    setTimeout(() => document.getElementById('global-name')?.focus(), 50);
-  } else p.classList.remove('open');
-}
-
-// ── Mutations (exposed to inline handlers via window) ───────
+// ── Event delegation ────────────────────────────────────────
 function getOrCreate(name) {
-  let c = state.colleagues.find(x => x.name.toLowerCase()===name.toLowerCase());
-  if (!c) { c={id:uid(),name,pathways:[false,false,false,false],application:false}; state.colleagues.push(c); }
+  let c = state.colleagues.find(x => x.name.toLowerCase() === name.toLowerCase());
+  if (!c) { c = {id:uid(),name,pathways:[false,false,false,false],application:false}; state.colleagues.push(c); }
   return c;
 }
 
-window.updPw    = (i,v) => { state.pathways[i]=v.trim()||`Pathway ${i+1}`; save(); renderPathways(); renderLB(); };
-window.updTotal = (v)   => { const n=parseInt(v); state.totalStaff=(!isNaN(n)&&n>0)?n:0; save(); renderPathways(); };
-window.openColForm = (k)=> { if(!isAdmin)return; openForm=openForm===k?null:k; renderPathways(); };
-window.closeForm   = () => { openForm=null; renderPathways(); };
-window.addGlobal   = () => { const inp=document.getElementById('global-name'); const name=inp?.value.trim(); if(!name)return; if(state.colleagues.find(c=>c.name.toLowerCase()===name.toLowerCase()))return; state.colleagues.push({id:uid(),name,pathways:[false,false,false,false],application:false}); inp.value=''; addOpen=false; document.getElementById('add-panel').classList.remove('open'); save(); render(); };
-window.addToPw  = (i)  => { const inp=document.getElementById(`col-in-${i}`); const name=inp?.value.trim(); if(!name)return; getOrCreate(name).pathways[i]=true; openForm=null; save(); render(); };
-window.addToApp = ()   => { const inp=document.getElementById('col-in-app'); const name=inp?.value.trim(); if(!name)return; getOrCreate(name).application=true; openForm=null; save(); render(); };
-window.grantPw  = (id,i) => { const c=state.colleagues.find(x=>x.id===id); if(c){c.pathways[i]=true;openForm=null;save();render();} };
-window.grantApp = (id)   => { const c=state.colleagues.find(x=>x.id===id); if(c){c.application=true;openForm=null;save();render();} };
-window.removePw = (id,i) => { const c=state.colleagues.find(x=>x.id===id); if(c){c.pathways[i]=false;save();render();} };
-window.removeApp= (id)   => { const c=state.colleagues.find(x=>x.id===id); if(c){c.application=false;save();render();} };
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-action]');
+  if (!el) return;
+  const action = el.dataset.action;
+  const id = el.dataset.id;
+  const idx = el.dataset.idx === 'app' ? 'app' : parseInt(el.dataset.idx);
 
-window.toggleSettings  = toggleSettings;
-window.toggleAddPerson = toggleAddPerson;
+  if (action === 'openForm') { if (!isAdmin) return; openForm = openForm === idx ? null : idx; renderPathways(); }
+  else if (action === 'closeForm') { openForm = null; renderPathways(); }
+  else if (action === 'addToPw') {
+    const inp = document.getElementById(`cin-${idx}`);
+    const name = inp?.value.trim(); if (!name) return;
+    getOrCreate(name).pathways[idx] = true; openForm = null; save(); render();
+  }
+  else if (action === 'addToApp') {
+    const inp = document.getElementById('cin-app');
+    const name = inp?.value.trim(); if (!name) return;
+    getOrCreate(name).application = true; openForm = null; save(); render();
+  }
+  else if (action === 'grantPw') { const c=state.colleagues.find(x=>x.id===id); if(c){c.pathways[idx]=true;openForm=null;save();render();} }
+  else if (action === 'grantApp') { const c=state.colleagues.find(x=>x.id===id); if(c){c.application=true;openForm=null;save();render();} }
+  else if (action === 'removePw') { const c=state.colleagues.find(x=>x.id===id); if(c){c.pathways[idx]=false;save();render();} }
+  else if (action === 'removeApp') { const c=state.colleagues.find(x=>x.id===id); if(c){c.application=false;save();render();} }
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    const t = e.target;
+    if (t.id === 'global-name') globalAdd();
+    else if (t.id && t.id.startsWith('cin-')) {
+      const idx = t.id === 'cin-app' ? 'app' : parseInt(t.id.replace('cin-',''));
+      if (idx === 'app') {
+        const name = t.value.trim(); if (!name) return;
+        getOrCreate(name).application = true; openForm = null; save(); render();
+      } else {
+        const name = t.value.trim(); if (!name) return;
+        getOrCreate(name).pathways[idx] = true; openForm = null; save(); render();
+      }
+    }
+  }
+});
+
+// ── Panel controls ──────────────────────────────────────────
+function toggleSettings(open) {
+  settingsOpen = open ?? !settingsOpen;
+  document.getElementById('settings-panel').classList.toggle('open', settingsOpen);
+  if (settingsOpen) {
+    addOpen = false;
+    document.getElementById('add-panel').classList.remove('open');
+    document.getElementById('pw-inputs').innerHTML = state.pathways.map((pw,i) =>
+      `<div class="panel-row"><span class="pw-num">${i+1}</span><input type="text" class="pw-name-input" data-idx="${i}" value="${esc(pw)}" style="max-width:360px"/></div>`
+    ).join('');
+    const tsi = document.getElementById('total-staff-input');
+    if (tsi) tsi.value = state.totalStaff || '';
+  }
+}
+
+function globalAdd() {
+  const inp = document.getElementById('global-name');
+  const name = inp?.value.trim(); if (!name) return;
+  if (state.colleagues.find(c => c.name.toLowerCase() === name.toLowerCase())) return;
+  state.colleagues.push({id:uid(),name,pathways:[false,false,false,false],application:false});
+  inp.value = ''; addOpen = false;
+  document.getElementById('add-panel').classList.remove('open');
+  save(); render();
+}
+
+document.getElementById('btn-edit-pathways').addEventListener('click', () => toggleSettings());
+document.getElementById('settings-close').addEventListener('click', () => toggleSettings(false));
+document.getElementById('btn-add-person').addEventListener('click', () => {
+  addOpen = !addOpen;
+  document.getElementById('add-panel').classList.toggle('open', addOpen);
+  if (addOpen) { settingsOpen = false; document.getElementById('settings-panel').classList.remove('open'); setTimeout(()=>document.getElementById('global-name').focus(),50); }
+});
+document.getElementById('global-add-btn').addEventListener('click', globalAdd);
+document.getElementById('global-cancel-btn').addEventListener('click', () => {
+  addOpen = false; document.getElementById('add-panel').classList.remove('open');
+});
+
+document.getElementById('pw-inputs').addEventListener('change', e => {
+  const el = e.target.closest('.pw-name-input');
+  if (!el) return;
+  const i = parseInt(el.dataset.idx);
+  state.pathways[i] = el.value.trim() || `Pathway ${i+1}`;
+  save(); renderPathways(); renderLB();
+});
+
+document.getElementById('total-staff-input').addEventListener('input', e => {
+  const n = parseInt(e.target.value);
+  state.totalStaff = (!isNaN(n) && n > 0) ? n : 0;
+  save(); renderPathways();
+});
+
+applyAdmin();
 </script>
-
-<div class="modal-bg" id="admin-modal" style="display:none">
-  <div class="modal">
-    <div class="modal-title">Admin login</div>
-    <div class="modal-sub">Enter the password to enable editing.</div>
-    <input type="password" id="admin-pw-input" placeholder="Password" style="margin-bottom:4px;" onkeydown="if(event.key==='Enter')window.submitAdminPw()"/>
-    <div class="modal-error" id="pw-error">Incorrect password — try again.</div>
-    <div style="display:flex;gap:8px;margin-top:1rem;">
-      <button class="btn-green btn-sm" onclick="window.submitAdminPw()">Log in</button>
-      <button class="btn-ghost btn-sm" onclick="window.closeAdminModal()">Cancel</button>
-    </div>
-  </div>
-</div>
 </body>
 </html>
