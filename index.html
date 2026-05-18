@@ -81,10 +81,15 @@ input[type=text]:focus,input[type=password]:focus{border-color:#1d6e5e;box-shado
 .add-input-row{display:flex;gap:5px;margin-bottom:7px}
 .add-input-row input{font-size:12px;padding:6px 10px}
 .existing-label{font-size:10px;font-weight:700;color:#969690;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
-.existing-list{display:flex;flex-direction:column;gap:2px;max-height:120px;overflow-y:auto}
+.existing-list{display:flex;flex-direction:column;gap:2px;max-height:150px;overflow-y:auto}
 .existing-item{display:flex;align-items:center;gap:6px;padding:5px 7px;border-radius:6px;cursor:pointer;font-size:12px;color:#3c3c38;transition:background .12s}
 .existing-item:hover{background:#f0faf7}
+.existing-item.hidden{display:none}
+.no-match{display:none;font-size:11px;color:#969690;padding:4px 7px}
+.no-match.visible{display:block}
 .existing-av{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff;flex-shrink:0}
+.no-match{font-size:11px;color:#969690;padding:4px 7px;display:none}
+.no-match.visible{display:block}
 .no-existing{font-size:11px;color:#969690;padding:3px 6px}
 .col-add-btn{width:100%;background:transparent;border:1.5px dashed #b5d4bf;color:#1d6e5e;font-size:12px;font-weight:700;padding:7px;border-radius:8px;cursor:pointer;display:none;align-items:center;justify-content:center;gap:4px;transition:.15s;font-family:'DM Sans',sans-serif}
 .col-add-btn:hover{background:#f0faf7;border-style:solid}
@@ -381,15 +386,15 @@ function renderPathways() {
       </div>
       <div class="col-add-form${isOpen ? ' open' : ''}" id="caf-${i}">
         <div class="add-input-row">
-          <input type="text" id="cin-${i}" placeholder="New colleague…"/>
+          <input type="text" id="cin-${i}" placeholder="Start typing a name…" oninput="filterList(this.value,'elist-${i}')"/>
           <button class="btn-green btn-sm" data-action="addToPw" data-idx="${i}">${svgPlus(12)}</button>
           <button class="btn-ghost btn-sm" data-action="closeForm">${svgX(11)}</button>
         </div>
         ${eligible.length > 0
-          ? `<div class="existing-label">Or pick existing:</div><div class="existing-list">${eligible.map(c =>
-              `<div class="existing-item" data-action="grantPw" data-id="${c.id}" data-idx="${i}">
+          ? `<div class="existing-label">Colleagues:</div><div class="existing-list" id="elist-${i}">${eligible.map(c =>
+              `<div class="existing-item" data-action="grantPw" data-id="${c.id}" data-idx="${i}" data-name="${esc(c.name.toLowerCase())}">
                 <div class="existing-av" style="background:${avc(c.name)}">${esc(inits(c.name))}</div>${esc(c.name)}
-              </div>`).join('')}</div>`
+              </div>`).join('')}<div class="no-match">No match found</div></div>`
           : total > 0 ? '<div class="no-existing">Everyone has this badge!</div>' : ''}
       </div>
       <div class="col-footer">
@@ -423,15 +428,15 @@ function renderPathways() {
     </div>
     <div class="col-add-form${appOpen ? ' open' : ''}" id="caf-app">
       <div class="add-input-row">
-        <input type="text" id="cin-app" placeholder="New colleague…"/>
+        <input type="text" id="cin-app" placeholder="Start typing a name…" oninput="filterList(this.value,'elist-app')"/>
         <button class="btn-green btn-sm" data-action="addToApp">${svgPlus(12)}</button>
         <button class="btn-ghost btn-sm" data-action="closeForm">${svgX(11)}</button>
       </div>
       ${ae.length > 0
-        ? `<div class="existing-label">Or pick existing:</div><div class="existing-list">${ae.map(c =>
-            `<div class="existing-item" data-action="grantApp" data-id="${c.id}">
+        ? `<div class="existing-label">Colleagues:</div><div class="existing-list" id="elist-app">${ae.map(c =>
+            `<div class="existing-item" data-action="grantApp" data-id="${c.id}" data-name="${esc(c.name.toLowerCase())}">
               <div class="existing-av" style="background:${avc(c.name)}">${esc(inits(c.name))}</div>${esc(c.name)}
-            </div>`).join('')}</div>`
+            </div>`).join('')}<div class="no-match">No match found</div></div>`
         : total > 0 ? '<div class="no-existing">Everyone has applied!</div>' : ''}
     </div>
     <div class="col-footer">
@@ -515,6 +520,22 @@ document.addEventListener('keydown', e => {
 });
 
 // ── Panel controls ──────────────────────────────────────────
+function filterList(query, listId) {
+  const list = document.getElementById(listId);
+  if (!list) return;
+  const q = query.trim().toLowerCase();
+  const items = list.querySelectorAll('.existing-item');
+  const noMatch = list.querySelector('.no-match');
+  let visible = 0;
+  items.forEach(item => {
+    const show = !q || (item.dataset.name || '').includes(q);
+    item.classList.toggle('hidden', !show);
+    if (show) visible++;
+  });
+  if (noMatch) noMatch.classList.toggle('visible', visible === 0 && q.length > 0);
+}
+window.filterList = filterList;
+
 function toggleSettings(open) {
   settingsOpen = open ?? !settingsOpen;
   document.getElementById('settings-panel').classList.toggle('open', settingsOpen);
