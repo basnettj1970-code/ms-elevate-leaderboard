@@ -123,12 +123,6 @@ input[type=text]:focus,input[type=password]:focus{border-color:#1d6e5e;box-shado
 .score-n{font-size:14px;font-weight:700}.score-full{color:#1d6e5e}.score-zero{color:#b0b0ab}
 .empty-lb{padding:2.5rem;text-align:center;color:#969690;font-size:14px}
 .loading-screen{position:fixed;inset:0;background:#faf9f6;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;z-index:100}
-.backup-bar{display:flex;gap:8px;align-items:center;margin-bottom:1.5rem;padding:.75rem 1rem;background:#fff;border:1px solid #e0e0db;border-radius:10px}
-.backup-bar span{font-size:12px;color:#5c5c58;flex:1}
-.btn-backup{background:#1d6e5e;color:#fff;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:5px;font-family:'DM Sans',sans-serif;cursor:pointer;border:none}
-.btn-backup:hover{background:#155046}
-.btn-restore{background:#fff;color:#1d6e5e;border:1.5px solid #1d6e5e;padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:5px;font-family:'DM Sans',sans-serif;cursor:pointer}
-.btn-restore:hover{background:#f0faf7}
 .loading-spinner{width:32px;height:32px;border:3px solid #e0e0db;border-top-color:#1d6e5e;border-radius:50%;animation:spin .7s linear infinite}
 .loading-text{font-size:14px;color:#5c5c58}
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:flex;align-items:center;justify-content:center}
@@ -222,19 +216,6 @@ input[type=text]:focus,input[type=password]:focus{border-color:#1d6e5e;box-shado
     </div>
   </div>
 
-  <div class="backup-bar">
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1d6e5e" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-    <span><strong>Back up your data regularly</strong> — download a backup after adding names, and restore it here if anything goes wrong.</span>
-    <button class="btn-backup" onclick="exportData()">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      Download backup
-    </button>
-    <button class="btn-restore" onclick="document.getElementById('restore-input').click()">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-      Restore backup
-    </button>
-    <input type="file" id="restore-input" accept=".json" style="display:none" onchange="importData(event)"/>
-  </div>
   <div class="section-heading"><h2>Learning pathways &amp; badges</h2><div class="section-line"></div></div>
   <div class="pathways-grid" id="pathways-grid"></div>
 
@@ -327,7 +308,12 @@ function setError()   { const d=document.getElementById('sync-dot'); const l=doc
 
 async function saveToFirebase() {
   setSyncing();
-  try { await setDoc(stateRef, state); setSynced(); }
+  try {
+    await setDoc(stateRef, state);
+    // Always keep a local copy as automatic backup
+    localStorage.setItem('elevate-lb-backup', JSON.stringify(state));
+    setSynced();
+  }
   catch(e) { setError(); console.error(e); }
 }
 function save() { clearTimeout(saveTimer); saveTimer = setTimeout(saveToFirebase, 600); }
@@ -337,19 +323,42 @@ onSnapshot(stateRef, snap => {
   document.getElementById('loading').style.display = 'none';
   if (snap.exists()) {
     const d = snap.data();
-    // SAFE MERGE: only update from Firebase if colleagues array has data,
-    // never overwrite existing local data with an empty array from Firebase
     const incomingColleagues = Array.isArray(d.colleagues) ? d.colleagues : [];
-    // On first load always trust Firebase. After that, only update if
-    // incoming data has MORE colleagues (prevents empty-state overwrite)
-    if (!initialLoadDone || incomingColleagues.length >= state.colleagues.length) {
+
+    if (!initialLoadDone) {
+      // First load — check if Firebase has data or if we need to restore from local backup
+      if (incomingColleagues.length === 0) {
+        // Firebase is empty — check local backup
+        const localBackup = localStorage.getItem('elevate-lb-backup');
+        if (localBackup) {
+          try {
+            const backup = JSON.parse(localBackup);
+            if (backup.colleagues && backup.colleagues.length > 0) {
+              console.log('Firebase empty — auto-restoring from local backup (' + backup.colleagues.length + ' colleagues)');
+              state = backup;
+              // Restore backup to Firebase silently
+              saveToFirebase();
+              initialLoadDone = true;
+              setSynced();
+              render();
+              return;
+            }
+          } catch(e) { console.error('Local backup parse error', e); }
+        }
+      }
+      state = {
+        pathways: d.pathways || state.pathways,
+        colleagues: incomingColleagues,
+        totalStaff: d.totalStaff ?? 50
+      };
+      initialLoadDone = true;
+    } else if (incomingColleagues.length >= state.colleagues.length) {
       state = {
         pathways: d.pathways || state.pathways,
         colleagues: incomingColleagues,
         totalStaff: d.totalStaff ?? 50
       };
     }
-    initialLoadDone = true;
   }
   // NEVER write to Firebase on load — only read
   setSynced();
