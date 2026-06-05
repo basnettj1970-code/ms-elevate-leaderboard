@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Microsoft Elevate — Educator Expert Leaderboard</title>
+<title>Microsoft Elevate — Educator Expert</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -101,6 +101,15 @@ input[type=text]:focus,input[type=password]:focus{border-color:#1d6e5e;box-shado
 .pw-card.is-app .col-add-btn:hover{background:#e6f1fb;border-style:solid}
 .col-footer{padding:.6rem .75rem;border-top:1px solid #eeeee9}
 .pw-card.is-app .col-footer{border-top-color:#b5cfe8}
+.finish-line{display:flex;align-items:center;gap:10px;padding:8px 16px;background:#1d6e5e}
+.finish-line span{font-size:11px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.07em}
+.finish-line-divider{display:flex;align-items:center;gap:10px;padding:8px 16px;background:#faf9f6;border-top:1px solid #e0e0db;border-bottom:1px solid #e0e0db}
+.finish-line-divider span{font-size:11px;font-weight:700;color:#969690;text-transform:uppercase;letter-spacing:.07em}
+.finish-flag{display:flex;gap:2px;flex-shrink:0}
+.finish-flag span{width:8px;height:8px;display:inline-block}
+.lb-row.finished{background:#f0faf7}
+.lb-row.finished:hover{background:#e6f5ed}
+.empty-section{padding:1.25rem 16px;font-size:13px;color:#969690;font-style:italic}
 .lb-wrap{background:#fff;border:1px solid #e0e0db;border-radius:14px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05)}
 .lb-head{display:flex;align-items:center;gap:10px;padding:9px 16px;background:#185fa5}
 .lb-head span{font-size:10px;font-weight:700;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.07em}
@@ -219,7 +228,7 @@ input[type=text]:focus,input[type=password]:focus{border-color:#1d6e5e;box-shado
   <div class="section-heading"><h2>Learning pathways &amp; badges</h2><div class="section-line"></div></div>
   <div class="pathways-grid" id="pathways-grid"></div>
 
-  <div class="section-heading" style="margin-top:.5rem"><h2>Leaderboard</h2><div class="section-line"></div></div>
+  <div class="section-heading" style="margin-top:.5rem"><h2>Over the finish line</h2><div class="section-line"></div></div>
   <div class="lb-wrap">
     <div class="lb-head">
       <span class="c-rank" style="color:rgba(255,255,255,.35)">#</span>
@@ -228,7 +237,8 @@ input[type=text]:focus,input[type=password]:focus{border-color:#1d6e5e;box-shado
       <span class="c-app">Expert application</span>
       <span class="c-score" style="text-align:right">Score</span>
     </div>
-    <div id="lb-body"></div>
+    <div id="lb-finished"></div>
+    <div id="lb-racing"></div>
   </div>
 </main>
 
@@ -500,21 +510,61 @@ function renderPathways() {
 }
 
 function renderLB() {
-  const list = sorted();
-  const body = document.getElementById('lb-body');
-  if (!list.length) { body.innerHTML = '<div class="empty-lb">Add colleagues above to see the leaderboard.</div>'; return; }
+  const all = [...state.colleagues];
+  const finished = all.filter(c => sc(c) === 5);
+  const racing   = all.filter(c => sc(c) <  5).sort((a,b) => sc(b) - sc(a));
+
+  const finDiv  = document.getElementById('lb-finished');
+  const raceDiv = document.getElementById('lb-racing');
+
+  if (!all.length) {
+    finDiv.innerHTML  = '<div class="empty-lb">Add colleagues above to see progress.</div>';
+    raceDiv.innerHTML = '';
+    return;
+  }
+
+  const flagSvg = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>`;
+  const starSvg = `<svg width="14" height="14" viewBox="0 0 24 24" fill="#c9a84c" stroke="#c9a84c" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
+
+  // Finished section
+  if (finished.length > 0) {
+    finDiv.innerHTML =
+      `<div class="finish-line">${flagSvg}<span>Over the finish line — ${finished.length} colleague${finished.length!==1?'s':''} completed all 5</span></div>` +
+      finished.map((c, idx) => {
+        const dots = c.pathways.map((d,i) => `<span class="lb-dot done" title="${esc(state.pathways[i])}">${svgCheck(9)}</span>`).join('');
+        return `<div class="lb-row finished">
+          <div class="c-rank"><span style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;">${starSvg}</span></div>
+          <div class="c-name"><div class="lb-av" style="background:${avc(c.name)}">${esc(inits(c.name))}</div><span class="lb-name" style="font-weight:700">${esc(c.name)}</span></div>
+          <div class="c-pws"><div class="lb-dots">${dots}</div></div>
+          <div class="c-app"><span class="app-pill yes">${svgCheck(10)} Submitted</span></div>
+          <div class="c-score"><span class="score-n score-full">5<span style="font-size:10px;color:#b0b0ab">/5</span></span></div>
+        </div>`;
+      }).join('');
+  } else {
+    finDiv.innerHTML = '';
+  }
+
+  // Still racing section
+  const raceLabel = finished.length > 0
+    ? `<div class="finish-line-divider"><span>Still racing — ${racing.length} colleague${racing.length!==1?'s':''} in progress</span></div>`
+    : `<div class="finish-line-divider"><span>Racing — ${racing.length} colleague${racing.length!==1?'s':''}</span></div>`;
+
   const rc = r => r===1?'r1':r===2?'r2':r===3?'r3':'rn';
-  body.innerHTML = list.map((c,idx) => {
-    const r=idx+1, s=sc(c);
-    const dots = c.pathways.map((d,i) => `<span class="lb-dot ${d?'done':'todo'}" title="${esc(state.pathways[i])}">${d?svgCheck(9):i+1}</span>`).join('');
-    return `<div class="lb-row">
-      <div class="c-rank"><span class="rank-badge ${rc(r)}">${r}</span></div>
-      <div class="c-name"><div class="lb-av" style="background:${avc(c.name)}">${esc(inits(c.name))}</div><span class="lb-name">${esc(c.name)}</span></div>
-      <div class="c-pws"><div class="lb-dots">${dots}</div></div>
-      <div class="c-app"><span class="app-pill ${c.application?'yes':'no'}">${c.application?svgCheck(10)+' Submitted':'Pending'}</span></div>
-      <div class="c-score"><span class="score-n ${s===5?'score-full':s===0?'score-zero':''}">${s}<span style="font-size:10px;color:#b0b0ab">/5</span></span></div>
-    </div>`;
-  }).join('');
+  if (racing.length > 0) {
+    raceDiv.innerHTML = raceLabel + racing.map((c, idx) => {
+      const r=idx+1, s=sc(c);
+      const dots = c.pathways.map((d,i) => `<span class="lb-dot ${d?'done':'todo'}" title="${esc(state.pathways[i])}">${d?svgCheck(9):i+1}</span>`).join('');
+      return `<div class="lb-row">
+        <div class="c-rank"><span class="rank-badge ${rc(r)}">${r}</span></div>
+        <div class="c-name"><div class="lb-av" style="background:${avc(c.name)}">${esc(inits(c.name))}</div><span class="lb-name">${esc(c.name)}</span></div>
+        <div class="c-pws"><div class="lb-dots">${dots}</div></div>
+        <div class="c-app"><span class="app-pill ${c.application?'yes':'no'}">${c.application?svgCheck(10)+' Submitted':'Pending'}</span></div>
+        <div class="c-score"><span class="score-n ${s===0?'score-zero':''}">${s}<span style="font-size:10px;color:#b0b0ab">/5</span></span></div>
+      </div>`;
+    }).join('');
+  } else {
+    raceDiv.innerHTML = racing.length === 0 && finished.length > 0 ? '' : raceLabel + '<div class="empty-section">No colleagues added yet.</div>';
+  }
 }
 
 // ── Event delegation ────────────────────────────────────────
@@ -639,7 +689,7 @@ function globalAdd() {
   const inp = document.getElementById('global-name');
   const name = inp?.value.trim(); if (!name) return;
   if (state.colleagues.find(c => c.name.toLowerCase() === name.toLowerCase())) return;
-  state.colleagues.push({id:uid(),name,pathways:[false,false,false,false],application:false});
+  state.colleagues.push({id:uid(),name,pathways:[false,false,false,false],application:false,addedAt:Date.now()});
   inp.value = ''; addOpen = false;
   document.getElementById('add-panel').classList.remove('open');
   save(); render();
